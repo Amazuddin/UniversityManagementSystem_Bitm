@@ -1,0 +1,117 @@
+﻿
+@{
+    //Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>SaveDepartment</title>
+    <link href="~/Content/SaveDepartment.css" rel="stylesheet" />
+    <style>
+       
+    </style>
+</head>
+<body>
+    @*<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>*@
+
+<div class="container">
+    <h1 class="jumbotron jumbotron-fluid H1"><center>Department</center></h1>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8 colbox">
+            <center>
+                <div class="coldiv">
+                    
+                    @if (ViewBag.Message != null)
+                    {
+                        <div class="warning" id="warningLabel">
+                             <label>@ViewBag.Message</label>
+                        </div>
+                    }
+                        
+                    <form id="departmentForm" action="SaveDepartment" method="POST">
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-2 ctlabel">
+                                <label class="labeldesign">Code</label>
+                            </div>
+                            <div class="col-md-5 fld">
+                                <input class="textbox form-control" type="text" id="DepartmentCode" name="DepartmentCode"/>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-2 ctlabel">
+                                <label class="labeldesign">Name</label>
+                            </div>
+                            <div class="col-md-5 fld">
+                                <input class="textbox form-control" type="text" id="DepartmentName" name="DepartmentName"/>
+                            </div>
+                        </div>
+                        <br/>
+
+                        <input class="buttondesign" type="submit" id="submit" name="submit" value="Save"/>
+                    </form>
+                </div>
+               
+
+            </center>
+
+        </div>
+            @*<div class="col-md-2"></div>*@
+        </div>
+
+    </div>
+<br/><br/>
+
+</body>
+</html>
+@section scripts
+{
+
+    <script>
+        
+        setTimeout(function () {
+            $("#warningLabel").hide(1000).empty();
+        }, 5000);
+
+        $(document).ready(function () {
+            $("#departmentForm").validate({
+                rules: {
+
+                    DepartmentName: {
+                        required: true,
+                        normalizer: function (value) {
+                            return $.trim(value);
+                        }
+                    },
+                    DepartmentCode: {
+                        required: true,
+                        minlength: 2,
+                        maxlength: 7,
+                        normalizer: function (value) {
+                            return $.trim(value);
+                        }
+                    }
+
+                },
+                messages: {
+
+                    DepartmentName: "Please enter Department Name",
+                    DepartmentCode: {
+                        required: "Please enter Department Code",
+                        minlength: "Department Code must be 2 to 7 digit long",
+                        maxlength: "Department Code must be 2 to 7 digit long"
+                    }
+                }
+            });
+        });
+
+    </script>
+
+}

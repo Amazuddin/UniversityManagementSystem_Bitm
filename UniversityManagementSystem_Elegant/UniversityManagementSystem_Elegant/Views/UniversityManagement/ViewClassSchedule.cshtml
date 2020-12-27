@@ -1,0 +1,99 @@
+﻿@using UniversityManagementSystem_Elegant.Models
+
+@{
+    //Layout = null;
+    List<Department> departments = ViewBag.Department;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ViewClassSchedule</title>
+    <link href="~/Content/ViewClassSchedule.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <h1 class="jumbotron jumbotron-fluid H1">
+            <center>View Class Schedule And Room Information</center>
+        </h1>
+    <div class="row">
+        <div class="col-md-0"></div>
+        <div class="col-md-12 colbox">
+            <center>
+                <div class="coldiv">
+                    <form method="POST">
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-2 ctlabel">
+                                <label class="labeldesign">Department</label>
+                            </div>
+                            <div class="col-md-5 fld">
+                                <select class="downdesign form-control" id="departmentid" name="departmentid">
+                                    <option value="">SELECT</option>
+                                    @foreach (Department dep in departments)
+                                    {
+                                        <option value="@dep.Id">@dep.DepartmentName</option>
+                                    }
+
+                                </select>
+                            </div>
+                        </div><br/>
+                    </form><br/>
+
+                    <table class="table table-bordered table-striped table-hover" id="scheduletable">
+                        <thead>
+                        <tr>
+                            <th>Course Code</th>
+                            <th>Name</th>
+                            <th>Schedule Info</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tableBody"></tbody>
+
+                    </table>
+                </div>
+            </center>
+        </div>
+        <div class="col-md-0"></div>
+    </div>
+        </div>
+</body>
+</html>
+@section scripts
+{
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+        var table = $('#scheduletable').DataTable();
+    
+
+    $('#departmentid').on('change', function () {
+                var deptId = $('#departmentid').val();
+
+                table.clear().draw(false);
+                var json = { id: deptId };
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetAllInfoClassScheduleById", "UniversityManagement")',
+                    contentType: 'application/json',
+                    data: JSON.stringify(json),
+                    success: function (response) {
+                        $.each(response, function (key, value) {
+                            //$('#tableBody').append('<tr><td>' + value.CourseCode + '</td><td>' + value.CourseName + '</td><td>' + value.CourseSemester + '</td><td>' + value.CourseTeacher + '</td></tr>');
+
+                            table.row.add([
+                                value.CourseCode,
+                                value.CourseName,
+                                value.Schedule
+                                
+                            ]).draw(false);
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,185 @@
+﻿@using UniversityManagementSystem_Elegant.Models
+
+@{
+    //Layout = null;
+    List<Grade> grades = ViewBag.Grades;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>SaveStudentResult</title>
+    <link href="~/Content/SaveStudentResult.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <h1 class="jumbotron jumbotron-fluid H1"><center>Save Student Result</center></h1>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10 colbox">
+            <center>
+                <div class="coldiv">
+                    @if (@ViewBag.Message != null)
+                    {
+                        <div class="warning" id="warningLabel">
+                            <label>@ViewBag.Message</label>
+                        </div>
+                    }
+                    <form method="POST" id="resultForm">
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-2 ctlabel">
+                                <label class="labeldesign">Student Reg. No.</label>
+                            </div>
+                            <div class="col-md-5 fld">
+                                <select id="StudentId" name="StudentId" class="downdesign form-control">
+                                    <option value="">--SELECT--</option>
+
+                                    @foreach (RegisterStudent regNo in ViewBag.RegNo)
+                                    {
+                                        <option value="@regNo.Id">@regNo.RegNo</option>
+                                    }
+                                </select>
+                            </div>
+                        </div><br />
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-2 ctlabel">
+                                <label class="labeldesign" for="studentName">Name</label>
+                            </div>
+                            <div class="col-md-5 fld">
+                                <input class="textbox form-control " type="text" id="studentName" name="StudentName" disabled />
+                            </div>
+                        </div><br />
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-2 ctlabel">
+                                <label class="labeldesign" for="StudentEmail">Email</label>
+                            </div>
+                            <div class="col-md-5 fld">
+                                <input class="textbox form-control " type="text" id="StudentEmail" name="StudentEmail" disabled />
+                            </div>
+                        </div><br />
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-2 ctlabel">
+                                <label class="labeldesign" for="StudentDepartment">Department</label>
+                            </div>
+                            <div class="col-md-5 fld">
+                                <input class="textbox form-control " type="text" id="StudentDepartment" name="StudentDepartment" disabled />
+                            </div>
+                        </div><br />
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-2 ctlabel">
+                                <label class="labeldesign">Select Course</label>
+                            </div>
+                            <div class="col-md-5 fld">
+                                <select id="SelectCourse" name="CourseId" class="downdesign form-control">
+                                    <option value="">--Select--</option>
+                                </select>
+                            </div>
+                        </div><br />
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-2 ctlabel">
+                                <label class="labeldesign">Select Grade Letter</label>
+                            </div>
+                            <div class="col-md-5 fld">
+                                <select id="GradeId" name="GradeId" class="downdesign form-control">
+                                    <option value="">--SELECT--</option>
+
+                                    @foreach (Grade grade in grades)
+                                    {
+                                        <option value="@grade.Id">@grade.Name</option>
+                                    }
+                                </select>
+                            </div>
+                        </div><br />
+
+                        <input class="buttondesign" type="submit" id="Save" value="Save" />
+                    </form>
+                </div>
+            </center>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+        </div>
+</body>
+</html>
+@section scripts
+{
+    <script>
+        $(function () {
+            $('#StudentId').on('change', function () {
+                var regNoId = $('#StudentId').val();
+
+                $('#studentName').val('');
+                $('#StudentEmail').val('');
+                $('#StudentDepartment').val('');
+
+                var json = { id: regNoId };
+                $('#SelectCourse').empty();
+
+                $('#SelectCourse').append('<option value="">--Select--</option>');
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetCoursebyStudentRegNo", "UniversityManagement")',
+                    contentType: 'application/json',
+                    data: JSON.stringify(json),
+                    success: function (response) {
+                        $.each(response, function (key, value) {
+                            $('#SelectCourse').append('<option value="' + value.CourseId + '">' + value.Name + '</option>');
+                        });
+                    }
+                });
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetStudentAllinfoById", "UniversityManagement")',
+                    contentType: 'application/json',
+                    data: JSON.stringify(json),
+                    success: function (response) {
+                        $('#studentName').val(response['StudentName']);
+                        $('#StudentEmail').val(response['StudentEmail']);
+                        $('#StudentDepartment').val(response['DepartmentName']);
+                    }
+                });
+
+            });
+        });
+        setTimeout(function () {
+            $("#warningLabel").hide(1000).empty();
+        }, 5000);
+
+        $(document).ready(function () {
+            
+            $("#resultForm").validate({
+                rules: {
+                    StudentId: "required",
+                    StudentName: "required",
+                    StudentDepartment: "required",
+                    CourseId: "required",
+                    StudentEmail: {
+                        required: true,
+                        email: true
+                    },
+                    GradeId: "required"
+                },
+                messages: {
+                    StudentId: "Please select your registration no.",
+                    StudentName: "Name must be Required",
+                    StudentDepartment: "Department must be Required",
+                    StudentEmail: {
+                        required: "Email must be required",
+                        email:"Please enter the valid email"
+                    },
+                    CourseId: "Please select a course",
+                    GradeId: "Please select Grade"
+                }
+            });
+        });
+    </script>
+}

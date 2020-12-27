@@ -1,0 +1,194 @@
+﻿@using UniversityManagementSystem_Elegant.Models
+
+
+@{
+    //Layout = null;
+   
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Enroll In A Course</title>
+    <link href="~/Content/EnrollCourse.css" rel="stylesheet"/>
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    
+</head>
+<body>
+    <div class="container">
+        <h1 class="jumbotron jumbotron-fluid H1"><center>Enroll Course</center></h1>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10 colbox">
+                <center>
+                    <div class="coldiv">
+                        @if (@ViewBag.Message != null)
+                        {
+                            <div class="warning" id="warningLabel">
+                                <label>@ViewBag.Message</label>
+                            </div>
+                        }
+
+                        <form id="EnrollForm" method="POST" action="EnrollCourse">
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-2 ctlabel">
+                                    <label class="labeldesign" for="StudentRegno">Student Reg. No.</label>
+                                </div>
+                                <div class="col-md-5 fld">
+                                    <select id="StudentRegno" name="StudentId" class="downdesign form-control">
+                                        <option value="">--SELECT--</option>
+
+                                        @foreach (RegisterStudent regNo in ViewBag.RegNo)
+                                        {
+                                            <option value="@regNo.Id">@regNo.RegNo</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div><br />
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-2 ctlabel">
+                                    <label class="labeldesign" for="Name">Name</label>
+                                </div>
+                                <div class="col-md-5 fld">
+                                    <input class="textbox form-control " type="text" id="Name" name="Name" disabled />
+                                </div>
+                            </div><br />
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-2 ctlabel">
+                                    <label class="labeldesign" for="Email">Email</label>
+                                </div>
+                                <div class="col-md-5 fld">
+                                    <input class="textbox form-control " type="text" id="Email" name="Email" disabled />
+                                </div>
+                            </div><br />
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-2 ctlabel">
+                                    <label class="labeldesign" for="Department">Department</label>
+                                </div>
+                                <div class="col-md-5 fld">
+                                    <input class="textbox form-control " type="text" id="Department" name="Department" disabled />
+                                </div>
+                            </div><br />
+
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-2 ctlabel">
+                                    <label class="labeldesign" for="SelectCourse">Select Course</label>
+                                </div>
+                                <div class="col-md-5 fld">
+                                    <select id="SelectCourse" name="CourseId" class="downdesign form-control">
+                                        <option value="">--Select--</option>
+                                    </select>
+                                </div>
+                            </div><br />
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-2 ctlabel">
+                                    <label class="labeldesign" for="Date">Date</label>
+                                </div>
+                                <div class="col-md-5 fld">
+                                    <input class="textbox form-control " autocomplete="off" id="Date" name="RegTime" type="text" />
+                                </div>
+                            </div><br />
+                            
+
+                            <input class="buttondesign" type="submit" value="Enroll" />
+
+                        </form>
+                    </div>
+                </center>
+            </div>
+            <div class="col-md-1"></div>
+            </div>
+        </div>
+
+</body>
+</html>
+@section scripts
+    {
+@*<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>*@
+
+    <script>
+        setTimeout(function () {
+            $("#warningLabel").hide(1000).empty();
+        }, 5000);
+
+        $(function() {
+            $('#StudentRegno').on('change', function() {
+                var regNoId = $('#StudentRegno').val();
+                  
+                $('#Name').val('');
+                $('#Email').val('');
+                $('#Department').val('');
+                $('#Date').val('');
+
+
+                $('#SelectCourse').empty();
+
+                $('#SelectCourse').append('<option value="">--Select--</option>');
+
+                var json = { id: regNoId };
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetCoursebyRegNo", "UniversityManagement")',
+                    contentType: 'application/json',
+                    data: JSON.stringify(json),
+                    success: function(response) {
+                        $.each(response, function(key, value) {
+                            $('#SelectCourse').append('<option value="' + value.CourseId + '">' + value.Name + '</option>');
+                        });
+                    }
+                });
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetStudentDetailsbyRegNo", "UniversityManagement")',
+                    contentType: 'application/json',
+                    data: JSON.stringify(json),
+                    success: function (response) {
+                        $('#Name').val(response['StudentName']);
+                        $('#Email').val(response['StudentEmail']);
+                        $('#Department').val(response['DepartmentName']);
+                    }
+                });
+
+            });
+        });
+
+        $(document).ready(function() {
+            //Date Picker
+            $('#Date').datepicker({
+                format: "dd/mm/yyyy",
+                weekStart: 6,
+                autoclose: true,
+                todayHighlight: true
+            });
+            $("#EnrollForm").validate({
+                rules: {
+                    StudentId: "required",
+                    Name: "required",
+                    Department: "required",
+                    CourseId: "required",
+                    Email: {
+                        required: true,
+                        email: true
+                    },
+                    RegTime: "required"
+                },
+                messages: {
+                    StudentId: "Please select your registration no.",
+                    Name: "Name must be Required",
+                    Department: "Department must be Required",
+                    Email: "Email must be required",
+                    CourseId: "Please select a course",
+                    RegTime: "Please select date"
+                }
+            });
+        });
+    </script>
+}

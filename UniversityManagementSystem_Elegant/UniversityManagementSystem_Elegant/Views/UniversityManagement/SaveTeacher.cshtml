@@ -1,0 +1,177 @@
+﻿@using UniversityManagementSystem_Elegant.Models
+
+@{
+    //Layout = null;
+    List<Designation> designations = ViewBag.Designation;
+    List<Department> departments=ViewBag.Department;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>SaveTeacher</title>
+    <link href="~/Content/SaveTeacher.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <h1 class="jumbotron jumbotron-fluid H1">
+            <center>Save Teacher</center>
+        </h1>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10 colbox">
+                <center>
+                    <div class="coldiv">
+                        @if (ViewBag.Message != null)
+                        {
+                            <div class="warning" id="warningLabel">
+                                <label>@ViewBag.Message</label>
+                            </div>
+                        }
+                        <form method="POST" id="teacherForm">
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-2 ctlabel">
+                                    <label class="labeldesign">Name</label>
+                                </div>
+                                <div class="col-md-5 fld">
+                                    <input class="textbox form-control" type="text" id="Name" name="Name" />
+                                </div>
+                            </div><br />
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-2 ctlabel">
+                                    <label class="labeldesign">Address</label>
+                                </div>
+                                <div class="col-md-5 fld">
+                                    <textarea class="textareadesign form-control" id="Address" name="Address"></textarea>
+                                </div>
+                            </div><br/>
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-2 ctlabel">
+                                    <label class="labeldesign">Email</label>
+                                </div>
+                                <div class="col-md-5 fld">
+                                    <input class="textbox form-control" type="text" id="Email" name="Email"/>
+                                </div>
+                            </div><br/>
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-2 ctlabel">
+                                    <label class="labeldesign">Contact No.</label>
+                                </div>
+                                <div class="col-md-5 fld">
+                                    <input class="textbox form-control" type="text" id="Contact" name="Contact"/>
+                                </div>
+                            </div><br/>
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-2 ctlabel">
+                                    <label class="labeldesign">Designation</label>
+                                </div>
+                                <div class="col-md-5 fld">
+                                    <select id="DesignationId" name="DesignationId" class="downdesign form-control">
+                                        <option value="">SELECT</option>
+                                        @foreach (Designation desig in designations)
+                                        {
+                                            <option value="@desig.Id">@desig.Name</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div><br/>
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-2 ctlabel">
+                                    <label class="labeldesign">Department</label>
+                                </div>
+                                <div class="col-md-5 fld">
+                                    <select id="Department" name="Department" class="downdesign form-control">
+                                        <option value="">SELECT</option>
+                                        @foreach (Department dep in departments)
+                                        {
+                                            <option value="@dep.Id">@dep.DepartmentName</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div><br/>
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-2 ctlabel">
+                                    <label class="labeldesign">Credit to be taken</label>
+                                </div>
+                                <div class="col-md-5 fld">
+                                    <input class="textbox form-control" type="text" id="Totalcredit" name="Totalcredit"/>
+                                </div>
+                            </div><br/>
+
+                            <input class="buttondesign" type="submit" id="Save" value="Save"/>
+
+
+                        </form>
+                    </div>
+                </center>
+            </div>
+            <div class="col-md-1"></div>
+            </div>
+</div>
+</body>
+</html>
+@section scripts
+{
+    @*<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>*@
+    <script>
+        setTimeout(function () {
+            $("#warningLabel").hide(1000).empty();
+        }, 5000);
+
+        $(document).ready(function () {
+            $("#teacherForm").validate({
+                rules: {
+                    Name: "required",
+                    Address: "required",
+                    Email: {
+                        required: true,
+                        email: true
+                    },
+                    Contact: {
+                        required: true,
+                        number: true
+                    },
+                    DesignationId: "required",
+                    Department: "required",
+                    Totalcredit:
+                    {
+                        required: true,
+                        number: true,
+                        min: 1
+                    }
+
+                },
+                messages: {
+                    Name: "Please Enter the teacher name",
+                    Address: "Please enter the address",
+                    Email: {
+                        required: "Please Enter the email",
+                        email: "Please Enter the valid email"
+                    },
+                    Contact: {
+                        required: "Please enter the contact number",
+                        number: "Please enter the numerical number"
+                    },
+                    DesignationId: "Please select an option from the Designation list",
+                    Department: "Please select an option from the Department list",
+                    Totalcredit: {
+                        required: "Please Enter the totalcredit",
+                        number: "Please enter the numerical number",
+                        min: "Must be greater than 0"
+                    }
+
+                }
+            });
+        });
+    </script>
+}

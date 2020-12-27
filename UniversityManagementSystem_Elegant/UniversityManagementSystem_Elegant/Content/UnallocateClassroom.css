@@ -1,0 +1,50 @@
+﻿body {
+}
+
+        
+        .buttondesign {
+            width: 160px;
+            height: 50px;
+            font-size: 18px;
+            background-color: #093561;
+            color: white;
+            /*margin-left: 270px;*/
+        }
+        
+        .buttondesign:disabled {
+  cursor: not-allowed;
+  pointer-events: all !important;
+}
+        .buttondesign:hover {
+            background-color: #3d388a;
+        }
+        .colbox {
+           border-radius: 20px;
+            margin-top: 43px;
+            height: inherit;
+            margin: 10px;
+            padding: 0px;
+            text-align: center;
+        
+        }
+            .colbox:hover {
+                box-shadow: -1px 2px 18px #9191b6;
+            }
+        .coldiv {
+            margin-top: 61px;
+            margin-bottom: 61px;
+            
+        }
+        .warning {
+                margin-top: -29px;
+    margin-bottom: 40px;
+    font-size: 20px;
+    color: #4a0101;
+    padding: 15px;
+    background-color: #c4c4c5;
+    border-radius: 10px;
+    margin-left: 11px;
+    margin-right: 11px;
+        }
+       
+       

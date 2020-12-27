@@ -1,0 +1,171 @@
+﻿body {
+}
+.distance {
+    margin-right: 30px;
+}
+.dropdown:hover .dropdown-menu {display: block;}
+
+.dropdown-item:hover, .dropdown-item:focus {
+    color: #16181b;
+    text-decoration: none;
+    background-color: #c5d2df;
+}
+ #footer-design {
+            margin-top: 20px;
+        }
+
+        .footer-top {
+            background: #353859;
+            height: 200px;
+        }
+
+        .footer-social-icons {
+            width: 100%;
+            height: auto;
+            margin: auto;
+        }
+
+            .footer-social-icons ul {
+                margin: 0px;
+                padding: 0px;
+                text-align: center;
+            }
+
+                .footer-social-icons ul li {
+                    display: inline-block;
+                    width: 50px;
+                    height: 50px;
+                    margin: 9px 4px;
+                    border-radius: 100%;
+                    background: #555558ab;
+                }
+
+                    .footer-social-icons ul li a {
+                        color: white;
+                        font-size: 25px;
+                        text-decoration: none;
+                        outline: none;
+                    }
+
+                        .footer-social-icons ul li a i {
+                            line-height: 52px;
+                            color: #b8b6ff;
+                        }
+
+        .fh {
+            color: #da6969fa;
+            text-align: center;
+            margin: 10px;
+            margin-bottom: 15px;
+            margin-top: 33px;
+        }
+
+        .ft {
+            color: white;
+            text-align: center;
+            padding-bottom: 10px;
+        }
+
+        .footer-social-icons ul li:hover {
+            background-color: #808080;
+        }
+
+        .navbardesign {
+            height: 100px;
+            
+        }
+        .navbarsize {
+            font-size: 24px;
+            font-style: italic;
+        }
+        .dopdowndesign {
+            font-size: 20px;
+            margin-left: 33%;
+}
+        .backcolor {
+            background-color: #353859 !important;
+        }
+         /*.textbox {
+           border-radius: 20px;
+             padding: 10px;
+border: 4px solid green;
+height: 47px;
+width: 300px;
+margin-bottom: 14px;
+
+        }
+        .labeldesign {
+            margin-right: 43px;
+            font-size: 20px;
+            
+        }
+        .textareadesign {
+             border: 4px solid green;
+            margin-bottom: -38px;
+            width: 300px;
+            
+            padding: 10px;
+            margin-right: 50px;
+        }
+        .downdesign {
+            border: 4px solid green;
+             border-radius: 20px;
+             width: 300px;
+              height: 47px;
+              margin-right: 52px;
+        }
+        .downdesign-2 {
+            margin-top: 20px;
+            border: 4px solid green;
+             border-radius: 20px;
+             width: 300px;
+              height: 47px;
+            margin-right: 23px;
+        }
+        .buttondesign {
+            width: 136px;
+            height: 48px;
+            font-size: 22px;
+            background-color: #0080ff;
+            color: white;
+            margin-left: 260px;
+        }
+        .tp {
+            margin-top: 43px;
+            height: 450px;
+            margin: 10px;
+            padding: 0px;
+            text-align: center;
+           
+        }
+            .tp:hover {
+                box-shadow: -1px 2px 18px blue;
+            }
+            .mardiv {
+                margin-top: 105px;
+            }
+            td.top{
+  vertical-align:top;
+}
+td{
+  padding-bottom:4px;
+}*/
+            /*label.error {
+                color: red;
+font-size: 17px;
+padding: 20px;
+display: block;
+float: none;
+position: relative;
+top: -0.8em;
+margin-left: 122px;
+                margin-bottom: -20px;
+                    margin-top: -15px;
+            }*/
+        .jumbotron {
+            margin-top: 20px;
+            margin-left: 0;
+            font-size: 40px;
+            height: 172px;
+            font-style: oblique;
+        }

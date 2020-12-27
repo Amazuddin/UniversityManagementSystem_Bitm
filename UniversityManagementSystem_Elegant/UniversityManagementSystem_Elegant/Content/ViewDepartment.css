@@ -1,0 +1,44 @@
+﻿body {
+}
+.labeldesign {
+    margin-left: 120px;
+}
+ 
+.ctlabel {
+            float: right;
+            margin-left: 0px;
+            text-align: right;
+            font-size: 20px;
+        }
+
+        .fld {
+            margin-left: 0px;
+        }
+        
+        .colbox {
+           border-radius: 20px;
+            margin-top: 43px;
+            height: inherit;
+            margin: 10px;
+            padding: 0px;
+            text-align: center;
+        
+        }
+            .colbox:hover {
+                box-shadow: -1px 2px 18px #9191b6;
+            }
+        .coldiv {
+            margin-top: 61px;
+            margin-bottom: 61px;
+            padding: 20px;
+        }
+        
+        .downdesign {
+            margin-left: 20px;
+            width: 300px;
+            height: 45px;
+            border-radius: 20px;
+            border: 4px solid #2160a5;
+            padding-left: 10px;
+        }
+        

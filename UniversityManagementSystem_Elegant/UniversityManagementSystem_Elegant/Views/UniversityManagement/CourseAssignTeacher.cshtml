@@ -1,0 +1,252 @@
+﻿@using UniversityManagementSystem_Elegant.Models
+@{
+    List<Department> departments = ViewBag.Department;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Assign</title>
+    <link href="~/Content/CourseAssignTeacher.css" rel="stylesheet"/>
+
+    <style>
+        .labeldesign {
+            width: 160px;
+        }
+    </style>
+</head>
+<body>
+   
+<div class="container">
+    <h1 class="jumbotron jumbotron-fluid H1"><center>Course Assign Teacher</center></h1>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10 colbox">
+            <center>
+                <div class="coldiv">
+                    @if (@ViewBag.Message != null)
+                    {
+                        <div class="warning" id="warningLabel">
+                            <label>@ViewBag.Message</label>
+                        </div>
+                    }
+                    <form method="POST" id="teacherCourseForm" action="CourseAssignTeacher">
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-2 ctlabel">
+                                <label class="labeldesign">Department</label>
+                            </div>
+                            <div class="col-md-5 fld">
+                                <select id="departmentid" name="departmentid" class="downdesign form-control">
+                                    <option value="">SELECT</option>
+                                    @foreach (Department dep in departments)
+                                    {
+                                        <option value="@dep.Id">@dep.DepartmentName</option>
+                                    }
+
+                                </select>
+                            </div>
+                        </div><br/>
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-2 ctlabel">
+                                <label class="labeldesign">Teacher</label>
+                            </div>
+                            <div class="col-md-5 fld">
+                                <select id="teacherid" name="teacherid" class="downdesign form-control">
+                                    <option value="">--Select--</option>
+                                </select>
+                            </div>
+                        </div><br />
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-2 ctlabel">
+                                <label class="labeldesign">Credit to be taken</label>
+                            </div>
+                            <div class="col-md-5 fld">
+                                <input class="textbox form-control " type="number" id="Takencredit" name="Totalcredit" readonly="readonly" />
+                            </div>
+                        </div><br />
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-2 ctlabel">
+                                <label class="labeldesign">Remaining credit</label>
+                            </div>
+                            <div class="col-md-5 fld">
+                                <input class="textbox form-control" type="number" id="Remainingcredit" name="Remainingcredit" readonly="readonly" />
+                            </div>
+                        </div><br />
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-2 ctlabel">
+                                <label class="labeldesign">Course code</label>
+                            </div>
+                            <div class="col-md-5 fld">
+                                <select id="courseid" class="downdesign form-control" name="courseid">
+                                    <option value="">--Select--</option>
+                                </select>
+                            </div>
+                        </div><br />
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-2 ctlabel">
+                                <label class="labeldesign">Name</label>
+                            </div>
+                            <div class="col-md-5 fld">
+                                <input class="textbox form-control" type="text" id="coursename" name="Name" readonly="readonly" />
+                            </div>
+                        </div><br />
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-2 ctlabel">
+                                <label class="labeldesign">Credit</label>
+                            </div>
+                            <div class="col-md-5 fld">
+                                <input class="textbox form-control" type="number" id="coursecredit" name="Coursecredit" readonly="readonly" />
+                            </div>
+                        </div><br />
+
+                        <input class="buttondesign" type="submit" id="Assign" value="Assign" data-confirm="Course Credit is greater then Teacher's Remaining Credit" />
+                    </form>
+                    </div>
+</center>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+
+</div>
+   
+
+</body>
+</html>
+@section scripts
+{
+
+    <script>
+        
+        $(function () {
+
+
+            jQuery('[data-confirm]').click(function (e) {
+
+                var r = $('#Remainingcredit').val();
+                var c = $('#coursecredit').val();
+                console.log(r);
+                console.log(c);
+
+                if (parseInt(c) > parseInt(r)) {
+                    console.log(r);
+                    console.log(c);
+                    console.log(c > r);
+                    if (!confirm(jQuery(this).attr("data-confirm"))) {
+                        e.preventDefault();
+                    }
+                }
+            });
+
+
+            $('#departmentid').on('change', function() {
+               
+                var deptId = $('#departmentid').val();
+                $('#teacherid').empty();
+                $('#teacherid').append('<option value="">--Select--</option>');
+                $('#courseid').empty();
+                $('#courseid').append('<option value="">--Select--</option>');
+
+                $('#Takencredit').val('');
+                $('#Remainingcredit').val('');
+                $('#coursename').val('');
+                $('#coursecredit').val('');
+
+                var json = { id: deptId };
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetTeacherById", "UniversityManagement")',
+                    contentType: 'application/json',
+                    data: JSON.stringify(json),
+                    success: function(response) {
+                        $.each(response, function(key, value) {
+                            $('#teacherid').append('<option value="' + value.Id + '">' + value.Name + '</option>');
+                        });
+                    }
+                });
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetCourseById", "UniversityManagement")',
+                    contentType: 'application/json',
+                    data: JSON.stringify(json),
+                    success: function(response) {
+                        $.each(response, function(key, value) {
+                            $('#courseid').append('<option value="' + value.CourseId + '">' + value.CourseCode + '</option>');
+                        });
+                    }
+                });
+            });
+        });
+
+        $(function() {
+            $('#teacherid').on('change', function() {
+                var teacherId = $('#teacherid').val();
+                $('#Takencredit').val('');
+                $('#Remainingcredit').val('');
+                
+                var json = { id: teacherId };
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetCreditTakenById", "UniversityManagement")',
+                    contentType: 'application/json',
+                    data: JSON.stringify(json),
+                    success: function(response) {
+                        $('#Takencredit').val(response['Totalcredit']);
+                        $('#Remainingcredit').val(response['Takencredit']);
+                    }
+                });
+
+            });
+        });
+
+        $(function() {
+            $('#courseid').on('change', function() {
+                var courseId = $('#courseid').val();
+                $('#coursename').val('');
+                $('#coursecredit').val('');
+                var json = { id: courseId };
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetCourseNameCreditById", "UniversityManagement")',
+                    contentType: 'application/json',
+                    data: JSON.stringify(json),
+                    success: function(response) {
+
+                        $('#coursename').val(response['Name']);
+                        $('#coursecredit').val(response['Credit']);
+                    }
+                });
+
+            });
+        });
+
+    setTimeout(function () {
+        $("#warningLabel").hide(1000).empty();
+    }, 5000);
+
+    $(document).ready(function () {
+        $("#teacherCourseForm").validate({
+            rules: {
+                departmentid: "required",
+                teacherid: "required",
+                courseid: "required"
+
+            },
+            messages: {
+                departmentid: "Please select an option from the Department list",
+                teacherid: "Please select an option from the Teacher list",
+                courseid: "Please select an option from the Course code list"
+
+            }
+        });
+    });
+</script>
+
+}

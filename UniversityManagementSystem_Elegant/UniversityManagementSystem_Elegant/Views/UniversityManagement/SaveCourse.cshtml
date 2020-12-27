@@ -1,0 +1,188 @@
+﻿@using UniversityManagementSystem_Elegant.Models
+
+@{
+    //Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>SaveCourse</title>
+    <link href="~/Content/SaveCourse.css" rel="stylesheet" />
+</head>
+<body>
+
+    @*<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+        <script src="~/Scripts/jquery.validate.min.js"></script>*@
+
+
+
+    <div class="container">
+        <h1 class="jumbotron jumbotron-fluid H1"><center>Save Course</center></h1>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 colbox">
+                <center>
+                    <div class="coldiv">
+                        @if (@ViewBag.Message != null)
+                        {
+                            <div class="warning" id="warningLabel">
+                             <label>@ViewBag.Message</label>
+                        </div>
+                        }
+                        <form id="saveCourseForm" action="SaveCourse" method="POST">
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-2 ctlabel">
+                                    <label class="labeldesign">Code</label>
+                                </div>
+                                <div class="col-md-5 fld">
+                                    <input class="textbox form-control" type="text" id="CourseCode" name="CourseCode" />
+                                </div>
+                            </div>
+                            <br />
+
+
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-2 ctlabel">
+                                    <label class="labeldesign">Name</label>
+                                </div>
+                                <div class="col-md-5 fld">
+                                    <input class="textbox form-control" type="text" id="Name" name="Name" />
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-2 ctlabel">
+                                    <label class="labeldesign">Credit</label>
+                                </div>
+                                <div class="col-md-5 fld">
+                                    <input class="textbox form-control" type="text" id="Credit" name="Credit" />
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-2 ctlabel">
+                                    <label class="labeldesign">Description</label>
+                                </div>
+                                <div class="col-md-5 fld">
+                                    <textarea class="textareadesign form-control" id="Description" name="Description"></textarea>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-2 ctlabel">
+                                    <label class="labeldesign">Department</label>
+                                </div>
+                                <div class="col-md-5 fld">
+                                    <select class="downdesign form-control" id="DepartmentId" name="DepartmentId">
+                                        <option value="">Select</option>
+                                        @foreach (Department department in ViewBag.Department)
+                                        {
+                                            <option value="@department.Id">@department.DepartmentName</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-2 ctlabel">
+                                    <label class="labeldesign">Semester</label>
+                                </div>
+                                <div class="col-md-5 fld">
+                                    <select class="downdesign-2 form-control" id="SemesterId" name="SemesterId">
+
+                                        <option value="">Select</option>
+                                        @foreach (Semester semester in ViewBag.Semester)
+                                        {
+                                            <option value="@semester.SemesterId">@semester.SemesterName</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <br />
+                            <input class="buttondesign" type="submit" name="submit" value="Save" />
+                        </form>
+                    </div>
+
+                </center>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    
+</div><br/>
+</body>
+</html>
+@section scripts{
+    <script>
+        setTimeout(function () {
+            $("#warningLabel").hide(1000).empty();
+        }, 5000);
+
+        $(document).ready(function () {
+            $("#saveCourseForm").validate({
+                rules: {
+                    Name: {
+                        required: true,
+                        normalizer: function (value) {
+                            return $.trim(value);
+                        }
+                    },
+                    CourseCode: {
+                        required: true,
+                        normalizer: function (value) {
+                            return $.trim(value);
+                        },
+                        minlength: 5
+                    },
+                    Credit: {
+                        required: true,
+                        number: true,
+                        normalizer: function (value) {
+                            return $.trim(value);
+                        },
+                        min: 0.5,
+                        max: 5.0
+                    },
+                    DepartmentId: "required",
+
+                    SemesterId: "required"
+
+                },
+                messages: {
+
+                    Name: {
+                        required: "Course Name in Compulsory"
+
+                    },
+                    CourseCode: {
+                        required: "Course Code is Compulsory",
+
+                        minlength: "Code must be 5 character long"
+                    },
+                    Credit: {
+                        required: "Course Credit is Compulsory",
+                        number: "Credit must be numeric value",
+
+                        min: "Minimum Credit limit is 0.5",
+                        max: "Maximum Credit limit is 5.0"
+                    },
+                    DepartmentId: "You must Select a department",
+
+                    SemesterId: "You Must Select Semester"
+
+
+                }
+            });
+        });
+
+    </script>
+
+}

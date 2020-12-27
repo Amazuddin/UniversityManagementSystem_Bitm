@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/css/datatable")
+    <style>
+        .logo {
+            height: 6em;
+            width: 5em;
+            margin-top: -7px;
+            margin-right: -121px;
+            opacity: 0.3;
+            margin-left: 37px;
+        }
+    </style>
+
+</head>
+<body>
+
+<nav class="navbar navbardesign navbar-expand-lg navbar-light bg-light backcolor">
+    <div>
+        <img class="logo" src="~/Content/CustomDesign/logoi.jpg" />
+    </div>
+    <a style="color: white" class="navbar-brand navbarsize" href="~/UniversityManagement/SaveDepartment">University Management System</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse dopdowndesign" id="navbarNavDropdown">
+        <div class="tt"></div>
+        <ul class="navbar-nav ">
+
+            <li class="nav-item dropdown">
+                <a style="color: white" class="nav-link dropdown-toggle distance" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Save
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="~/UniversityManagement/SaveDepartment">Department</a>
+                    <a class="dropdown-item" href="~/UniversityManagement/SaveCourse"> Course</a>
+                    <a class="dropdown-item" href="~/UniversityManagement/SaveTeacher">Teacher</a>
+                    <a class="dropdown-item" href="~/UniversityManagement/RegisterStudent">Student</a>
+                    <a class="dropdown-item" href="~/UniversityManagement/SaveStudentResult">Student Result</a>
+                </div>
+            </li>
+
+        </ul>
+        <ul class="navbar-nav">
+
+            <li class="nav-item dropdown">
+                <a style="color: white" class="nav-link dropdown-toggle distance" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    View
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="~/UniversityManagement/ViewDepartment">All Department</a>
+                    <a class="dropdown-item" href="~/UniversityManagement/ShowCourse">Course Statics</a>
+                    <a class="dropdown-item" href="~/UniversityManagement/ViewClassSchedule">Class Schedule & Room Allocation Info</a>
+                    <a class="dropdown-item" href="~/UniversityManagement/ViewResult">Result</a>
+                </div>
+            </li>
+
+        </ul>
+        <ul class="navbar-nav">
+
+            <li class="nav-item dropdown">
+                <a style="color: white" class="nav-link dropdown-toggle distance" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Assign
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="~/UniversityManagement/CourseAssignTeacher">Course Assign to Teacher</a>
+                    <a class="dropdown-item" href="~/UniversityManagement/AllocateClassRoom">Allocate Classrooms</a>
+                    <a class="dropdown-item" href="~/UniversityManagement/EnrollCourse">Enroll Student In a Course</a>
+                </div>
+            </li>
+
+        </ul>
+        <ul class="navbar-nav">
+
+            <li class="nav-item dropdown ">
+                <a style="color: white" class="nav-link dropdown-toggle distance" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Unassign
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item " href="~/UniversityManagement/UnassignCourses">All Courses</a>
+                    <a class="dropdown-item" href="~/UniversityManagement/UnallocateAllClassrooms"> All class Rooms</a>
+
+                </div>
+            </li>
+
+        </ul>
+
+
+    </div>
+</nav>
+@RenderBody()
+<footer id="footer-design">
+    <div class="footer-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 footer-contact">
+                    <h3 class="fh">Follow Us</h3>
+                    <div class="footer-social-icons ft">
+                        <ul>
+                            <li>
+                                <a href="#" target="blank">
+                                    <i class="fa fa-facebook"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" target="blank">
+                                    <i class="fa fa-twitter"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" target="blank">
+                                    <i class="fa fa-google-plus"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" target="blank">
+                                    <i class="fa fa-youtube"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class=" col-md-6 footer-newsletter">
+                    <h3 class="fh">
+                        Designed & Developed By
+                    </h3>
+                    <div class="ft">
+                        <p>
+                            MD Amaz Uddin , Refat khan Pathan
+                        </p>
+                        <p>
+                            Md.Ehsanul Islam Khan , Shushmita Dey
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+@Scripts.Render("~/bundles/jquery")
+     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/jqueryval")
+@RenderSection("scripts", required: false)
+</body>
+</html>

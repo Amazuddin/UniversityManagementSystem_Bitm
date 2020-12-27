@@ -1,0 +1,73 @@
+﻿@using UniversityManagementSystem_Elegant.Models
+@model List<Department>
+@{
+   // Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ViewDepartment</title>
+    @*<link href="~/Content/DataTables/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />*@
+    @*<link href="~/Content/ViewDepartment.css" rel="stylesheet" />*@
+    <link href="~/Content/ViewDepartment.css" rel="stylesheet" />
+</head>
+<body>
+<div class="container">
+    <h1 class="jumbotron jumbotron-fluid H1">
+        <center>View Department</center>
+    </h1>
+    <div class="row">
+        <div class="col-md-0"></div>
+        <div class="col-md-12 colbox">
+            <center>
+                <div class="coldiv">
+
+                    @if (Model != null)
+                    {
+                        <table class="table table-bordered table-striped table-hover " id="depttable">
+                            <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Name</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (Department department in Model)
+                                {
+                                    <tr>
+                                        <td>@department.DepartmentCode</td>
+                                        <td>@department.DepartmentName</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+
+                </div>
+
+
+            </center>
+
+        </div>
+        <div class="col-md-0"></div>
+
+    </div>
+</div>
+</body>
+</html>
+@section scripts
+{
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#depttable').DataTable();
+
+        });
+    </script>
+    
+}

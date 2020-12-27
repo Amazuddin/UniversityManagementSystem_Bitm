@@ -1,0 +1,151 @@
+﻿@using UniversityManagementSystem_Elegant.Models
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ViewResult</title>
+   
+    <link href="~/Content/ViewResult.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <h1 class="jumbotron jumbotron-fluid H1"><center>View Student Result</center></h1>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10 colbox">
+                <center>
+                    <div class="coldiv">
+
+                        <form method="POST" id="resultForm" action="ConvertToPDF">
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-2 ctlabel">
+                                    <label class="labeldesign">Student Reg. No.</label>
+                                </div>
+                                <div class="col-md-5 fld">
+                                    <select id="StudentId" name="StudentId" class="downdesign form-control" required="">
+                                        <option value="">--SELECT--</option>
+
+                                        @foreach (RegisterStudent student in ViewBag.Student)
+                                        {
+                                            <option value="@student.Id">@student.RegNo</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div><br />
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-2 ctlabel">
+                                    <label class="labeldesign" for="studentName">Name</label>
+                                </div>
+                                <div class="col-md-5 fld">
+                                    <input class="textbox form-control " type="text" id="studentName" name="StudentName" disabled />
+                                </div>
+                            </div><br />
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-2 ctlabel">
+                                    <label class="labeldesign" for="StudentEmail">Email</label>
+                                </div>
+                                <div class="col-md-5 fld">
+                                    <input class="textbox form-control " type="text" id="StudentEmail" name="StudentEmail" disabled />
+                                </div>
+                            </div><br />
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-2 ctlabel">
+                                    <label class="labeldesign" for="StudentDepartment">Department</label>
+                                </div>
+                                <div class="col-md-5 fld">
+                                    <input class="textbox form-control " type="text" id="StudentDepartment" name="StudentDepartment" disabled />
+                                </div>
+                            </div><br />
+
+
+
+                            <input class="buttondesign" type="submit" id="Save" value="Make Pdf" disabled />
+                        </form>
+                        <table class="table table-bordered table-striped table-hover" id="resulttable">
+                            <thead>
+                                <tr>
+                                    <th>Course Code</th>
+                                    <th>Name</th>
+                                    <th>Grade</th>
+                                   
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody"></tbody>
+
+                        </table>
+                    </div>
+                </center>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+    </div>
+</body>
+</html>
+@section scripts
+{
+<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var table = $('#resulttable').DataTable();
+            var btnelem = document.getElementById('Save');
+            $('#StudentId').on('change', function () {
+                var stdNoId = $('#StudentId').val();
+                
+                
+
+                if (stdNoId==='') {
+                    btnelem.disabled = true;
+                }
+                else
+                    btnelem.disabled = false;
+                
+                $('#studentName').val('');
+                $('#StudentEmail').val('');
+                $('#StudentDepartment').val('');
+
+                var json = { id: stdNoId };
+                table.clear().draw(false);
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetStudentAllinfoById", "UniversityManagement")',
+                    contentType: 'application/json',
+                    data: JSON.stringify(json),
+                    success: function (response) {
+                        $('#studentName').val(response['StudentName']);
+                        $('#StudentEmail').val(response['StudentEmail']);
+                        $('#StudentDepartment').val(response['DepartmentName']);
+                    }
+                });
+               
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetResult", "UniversityManagement")',
+                    contentType: 'application/json',
+                    data: JSON.stringify(json),
+                    success: function (response) {
+                        $.each(response, function (key, value) {
+                            table.row.add([
+                                value.CourseCode,
+                                value.CourseName,
+                                value.Grade
+                               
+                            ]).draw(false);
+                           
+                        });
+                         
+                    }
+
+                });
+            });
+            
+        });
+       
+       
+    </script>
+}

@@ -1,0 +1,65 @@
+﻿@{
+    //Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>UnassignCourses</title>
+    <link href="~/Content/UnassignCourses.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <h1 class="jumbotron jumbotron-fluid H1">
+            <center>Unassign Courses</center>
+        </h1>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6 colbox">
+                <center>
+                    <div class="coldiv">
+                    
+                        @if (ViewBag.Message != null)
+                        {
+                            <div class="warning" id="warningLabel">
+                                <label>@ViewBag.Message</label>
+                                <label>@ViewBag.Message2</label>
+                                
+                            </div>
+                        }
+                        <form method="POST" id="unassignForm">
+                            <input class="buttondesign" type="submit" id="UnassignCourse" data-confirm="Are you sure to Unassign All Courses?" value="Unassign Courses"/>
+                        </form>
+                    </div>
+                       
+                </center>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+</body>
+</html>
+@section scripts
+{
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+
+
+        $(document).ready(function () {
+            setTimeout(function () {
+                $("#warningLabel").hide(1000).empty();
+            }, 5000);
+            jQuery('[data-confirm]').click(function (e) {
+                if (!confirm(jQuery(this).attr("data-confirm"))) {
+                    e.preventDefault();
+                }
+            });
+
+            });
+
+    </script>
+}
+

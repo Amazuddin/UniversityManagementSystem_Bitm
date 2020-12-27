@@ -1,0 +1,136 @@
+﻿@using UniversityManagementSystem_Elegant.Models
+@{
+
+    SpecialModel model = ViewBag.M;
+    Layout = null;
+    double totalCredit = 0.0,calculateCG=0.0,credit;
+    RegisterStudent student =new RegisterStudent();
+   
+    student = model.Student;
+
+    List<ViewCourses> courses = new List<ViewCourses>();
+    courses = model.Result;
+
+    foreach (ViewCourses result in courses)
+    {
+        {
+            credit = Convert.ToDouble(result.CourseCredit);
+
+            if (result.GradePoint.IsDecimal())
+            {
+                totalCredit += credit;
+                calculateCG += credit * (Convert.ToDouble(result.GradePoint));
+            }
+        }
+
+    }
+    double res = calculateCG / totalCredit;
+    res = Math.Round(res, 2);
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width"/>
+    <title>MakePdf</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet"/>
+    <style>
+        .lbl {
+            
+            width: 45em;
+            font-family: Palatino Linotype;
+            font-size: 19px;
+        }
+        .val {
+            font-family: Times New Roman;
+            font-size: 20px;
+            margin-left: 60px;
+        }
+        .cd {
+
+        }
+        .nm {
+
+        }
+        .tab {
+            margin-left: 126px;
+            margin-top: 7em;
+            margin-bottom: 2em;
+        }
+    </style>
+</head>
+
+<body>
+<div>
+
+    <table class="tab">
+        <tr class="row">
+            <th class="col-md-3 lbl">Reg. No</th>
+            <td class="col-md-8 val">: @student.RegNo</td>
+        </tr>
+        <tr class="row">
+            <th class="col-md-3 lbl">Name</th>
+            <td class="col-md-8 val">: @student.StudentName</td>
+        </tr>
+        <tr class="row">
+            <th class="col-md-3 lbl">Address</th>
+            <td class="col-md-8 val">: @student.StudentAddress</td>
+        </tr>
+        <tr class="row">
+            <th class="col-md-3 lbl">Email</th>
+            <td class="col-md-8 val">: @student.StudentEmail</td>
+        </tr>
+        <tr class="row">
+            <th class="col-md-3 lbl">Department</th>
+            <td class="col-md-8 val">: @student.DepartmentName</td>
+        </tr>
+        <tr class="row">
+            <th class="col-md-3 lbl">GPA</th>
+            <td class="col-md-8 val">: @res</td>
+        </tr>
+        
+        
+    </table>
+    <div class="container">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Credit</th>
+                <th>Grade</th>
+                <th>Grade Point</th>
+            </tr>
+            </thead>
+            <tbody >
+
+            @foreach (ViewCourses result in courses)
+            {
+
+                <tr>
+                    <td>@result.CourseCode</td>
+                    <td>@result.CourseName</td>
+                    <td>@result.CourseCredit</td>
+                    <td>@result.Grade</td>
+                    <td>@result.GradePoint</td>
+
+                </tr>
+
+
+
+            }
+
+
+
+            </tbody>
+
+        </table>
+        <br/><br/><br/>
+        <p>This Result Sheet was generated on: @DateTime.Now.ToString("D")</p>
+    </div>
+</div>
+</body>
+
+</html>
+

@@ -1,0 +1,215 @@
+﻿@using UniversityManagementSystem_Elegant.Models
+
+@{
+    //Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width"/>
+    <title>AllocateClassRoom</title>
+    @*<link href="~/Content/bootstrap.min.css" rel="stylesheet"/>*@
+    <link href="~/Content/bootstrap-clockpicker.min.css" rel="stylesheet"/>
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet"/>
+    <link href="~/Content/AllocateClassRomm.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <h1 class="jumbotron jumbotron-fluid H1">
+            <center>Allocated Class Room</center>
+        </h1>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10 colbox">
+            <center>
+
+                <div class="coldiv">
+                    @if (ViewBag.k != null)
+                    {
+                        <div class="warning" id="warningLabel">
+                        <label>@ViewBag.k</label>
+                    </div>
+                    }
+                    
+
+
+                <form id="allocateRoomFrom" action="AllocateClassRoom" method="POST">
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-2 ctlabel">
+                            <label class="labeldesign" for="DepartmentId">Department</label>
+                        </div>
+                        <div class="col-md-5 fld">
+                            <select id="DepartmentId" name="DepartmentId" class="downdesign form-control">
+                                <option value="">Select</option>
+                                @foreach (Department department in ViewBag.Department)
+                                {
+                                    <option value="@department.Id">@department.DepartmentName</option>
+                                }
+                            </select>
+                        </div>
+                    </div><br />
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-2 ctlabel">
+                            <label class="labeldesign" for="CourseId">Course</label>
+                        </div>
+                        <div class="col-md-5 fld">
+                            <select id="CourseId" name="CourseId" class="downdesign form-control">
+                                <option value="">Select</option>
+                            </select>
+                        </div>
+                    </div><br />
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-2 ctlabel">
+                            <label class="labeldesign" for="RoomId">Room</label>
+                        </div>
+                        <div class="col-md-5 fld">
+                            <select id="RoomId" name="RoomId" class="downdesign form-control">
+                                <option value="">Select</option>
+                                @foreach (Room room in ViewBag.Room)
+                                {
+                                    <option value="@room.RoomId">@room.RoomNo</option>
+                                }
+                            </select>
+                        </div>
+                    </div><br />
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-2 ctlabel">
+                            <label class="labeldesign" for="DayId">Day</label>
+                        </div>
+                        <div class="col-md-5 fld">
+                            <select id="DayId" name="DayId" class="downdesign form-control">
+                                <option value="">Select</option>
+                                @foreach (Day day in ViewBag.Day)
+                                {
+                                    <option value="@day.DayId">@day.DayName</option>
+                                }
+                            </select>
+
+                        </div>
+                    </div><br />      
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-2 ctlabel">
+                            <label class="labeldesign" for="TimeFrom">From</label>
+                        </div>
+                        <div class="col-md-5 fld">
+                           
+                                <input class="textbox form-control" autocomplete="off" type="text" id="TimeFrom" name="TimeFrom"/>
+                               
+                           
+                            
+
+                        </div>
+                    </div><br />      
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-2 ctlabel">
+                            <label class="labeldesign" for="TimeTo">To</label>
+                        </div>
+                        <div class="col-md-5 fld">
+                           
+                                <input class="textbox form-control" autocomplete="off" type="text" name="TimeTo" id="TimeTo" />
+                                
+                           
+                            
+                        </div>
+                    </div><br />    
+
+                       
+ <input class="buttondesign" type="submit" name="submit" value="Allocate" />
+                            
+
+                </form>
+                    </div>
+</center>
+        </div>
+    </div>
+        </div>
+</body>
+</html>
+@section scripts
+{
+   
+<script src="~/Scripts/bootstrap-clockpicker.min.js"></script>
+<script>
+    setTimeout(function () {
+        $("#warningLabel").hide(1000).empty();
+    }, 5000);
+
+    $(document).ready(function () {
+
+        $("#allocateRoomFrom").validate({
+           
+            rules: {
+                DepartmentId: "required",
+                CourseId: "required",
+                RoomId: "required",
+                DayId: "required",
+                TimeFrom: "required",
+                TimeTo: "required"
+
+            },
+            messages: {
+                DepartmentId: "Please Enter the Department",
+                CourseId: "Please Enter the Course",
+                RoomId: "Please enter the Room",
+                DayId: "Please select the Day",
+                TimeFrom: "Please enter the Starting Time",
+                TimeTo: "Please enter the Ending Time"
+
+            }
+           
+            
+            //errorLabelContainer:'#errormsg'
+        });
+    });
+
+
+    $('#TimeFrom').clockpicker({
+
+            placement: 'bottom', // clock popover placement
+            align: 'right', // popover arrow align
+            donetext: 'Done', // done button text
+            autoclose: false, // auto close when minute is selected
+            twelvehour: true
+
+        });
+
+    $('#TimeTo').clockpicker({
+
+
+            placement: 'bottom', // clock popover placement
+            align: 'right', // popover arrow align
+            donetext: 'Done', // done button text
+            autoclose: false, // auto close when minute is selected
+            twelvehour: true
+        });
+
+    $('#DepartmentId').on('change', function() {
+
+        var deptId = $('#DepartmentId').val();
+        $('#CourseId').empty();
+        $('#CourseId').append('<option value="">--Select--</option>');
+
+
+        var json = { id: deptId };
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetCourseByDeptId", "UniversityManagement")',
+            contentType: 'application/json',
+            data: JSON.stringify(json),
+            success: function(response) {
+                $.each(response, function(key, value) {
+                    $('#CourseId').append('<option value="' + value.CourseId + '">' + value.Name + '</option>');
+                });
+            }
+        });
+    });
+</script>
+}

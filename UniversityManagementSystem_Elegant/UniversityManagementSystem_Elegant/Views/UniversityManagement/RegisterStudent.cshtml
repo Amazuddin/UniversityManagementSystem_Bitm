@@ -1,0 +1,159 @@
+﻿@using UniversityManagementSystem_Elegant.Models
+
+@{
+    //Layout = null;
+    List<Department> departments = ViewBag.Department;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Register</title>
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet"/>
+    <link href="~/Content/RegisterStudent.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <h1 class="jumbotron jumbotron-fluid H1"><center>Register Student</center></h1>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 colbox">
+                <center>
+                    <div class="coldiv">
+                        @if (@ViewBag.Message != null)
+                        {
+                            <div class="warning" id="warningLabel">
+                                <label>@ViewBag.Message</label>
+                            </div>
+                        }
+                        <form method="POST" id="assignStudent">
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-2 ctlabel">
+                                    <label for="StudentName" class="labeldesign">Name</label>
+                                </div>
+                                <div class="col-md-5 fld">
+                                    <input class="textbox form-control" type="text" id="StudentName" name="StudentName" />
+                                </div>
+                            </div><br />
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-2 ctlabel">
+                                    <label for="StudentEmail" class="labeldesign">Email</label>
+                                </div>
+                                <div class="col-md-5 fld">
+                                    <input class="textbox form-control" type="text" id="StudentEmail" name="StudentEmail" />
+                                </div>
+                            </div><br />
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-2 ctlabel">
+                                    <label for="StudentContactNo" class="labeldesign">Contact No.</label>
+                                </div>
+                                <div class="col-md-5 fld">
+                                    <input class="textbox form-control" type="text" id="StudentContactNo" name="StudentContactNo" />
+                                </div>
+                            </div><br />
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-2 ctlabel">
+                                    <label for="Date" class="labeldesign">Date</label>
+                                </div>
+                                <div class="col-md-5 fld">
+                                    <input class="textbox form-control" type="text" id="Date" name="Date" />
+                                </div>
+                            </div><br />
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-2 ctlabel">
+                                    <label for="StudentAddress" class="labeldesign">Address</label>
+                                </div>
+                                <div class="col-md-5 fld">
+                                    <textarea class="textareadesign form-control" id="StudentAddress" name="StudentAddress"></textarea>
+                                </div>
+                            </div><br/>
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-2 ctlabel">
+                                    <label class="labeldesign" for="DepartmentId">Department</label>
+                                </div>
+                                <div class="col-md-5 fld">
+                                    <select id="DepartmentId" name="DepartmentId" class="downdesign form-control">
+                                        <option value="">SELECT</option>
+                                        @foreach (Department dep in departments)
+                                        {
+                                            <option value="@dep.Id">@dep.DepartmentName</option>
+                                        }
+
+                                    </select>
+                                </div>
+                            </div><br />
+
+                            <input class="buttondesign" type="submit" id="Register" value="Register" />
+
+                        </form>
+                    </div>
+
+                </center>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+     </div>
+          
+            
+</body>
+</html>
+@section scripts
+{
+@*<script src="~/Scripts/jquery-3.3.1.js"></script>*@
+    @*<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>*@
+    @*<script src="~/Scripts/jquery.validate.min.js"></script>*@
+    <script>
+        setTimeout(function () {
+            $("#warningLabel").hide(1000).empty();
+        }, 5000);
+
+        $(function () {
+            $("#Date").datepicker();
+        });
+
+        $(document).ready(function () {
+            $("#assignStudent").validate({
+                rules: {
+                    StudentName: "required",
+                    StudentEmail: {
+                        required: true,
+                        email: true
+                    },
+                    StudentContactNo: {
+                        required: true,
+                        number: true
+                    },
+                    Date: "required",
+                    StudentAddress: "required",
+                    DepartmentId: "required"
+
+                },
+                messages: {
+                    StudentName: "Please Enter the Name",
+                    StudentEmail: {
+                        required: "Please Enter the email",
+                        email: "Please Enter the valid email"
+                    },
+                    StudentContactNo: {
+                        required: "Please enter the contact number",
+                        number: "Please enter the number"
+                    },
+                    Date: "Please select the date from date picker",
+                    StudentAddress: "Please enter the address",
+                    DepartmentId: "Please select an option from the Department list"
+
+                }
+            });
+        });
+    </script>
+
+
+}
